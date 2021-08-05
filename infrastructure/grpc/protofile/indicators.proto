@@ -1,0 +1,17 @@
+syntax = "proto3";
+package indicators;
+option go_package = "grpc/pb";
+
+service IndicatorsService {
+  rpc Ema(StandardRequest) returns (StandardResult) {}
+}
+
+message StandardRequest {
+  string data = 1;
+  string source = 2;
+  int32 length = 3;
+}
+
+message StandardResult {
+  string data = 1;
+}
