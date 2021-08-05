@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    container_name: talibservice
+    container_name: marketanalyzer-indicators
     build: .
     volumes:
       - .:/go/src/

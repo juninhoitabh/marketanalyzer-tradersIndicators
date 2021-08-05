@@ -7,5 +7,5 @@ RUN apt-get update && \
     apt-get install build-essential -y
 
 COPY . .
-RUN GOOS=linux go build -ldflags="-s -w" -o talibservice
-ENTRYPOINT ["./talibservice"]
+RUN GOOS=linux go build -ldflags="-s -w" -o marketanalyzer-indicators
+ENTRYPOINT ["./marketanalyzer-indicators"]
