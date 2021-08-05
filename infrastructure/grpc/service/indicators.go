@@ -20,9 +20,8 @@ func NewIndicatorsService() *IndicatorsService {
 
 func (c *IndicatorsService) Ema(ctx context.Context, in *pb.StandardRequest) (*pb.StandardResult, error) {
 	p := []dto.PriceHistory{}
-	json.Unmarshal([]byte(in.Data), &p)
-
-	resultEma, err := c.GenereteIndicatorsUseCase.Ema(p, in.Source, in.Length)
+	json.Unmarshal([]byte(in.GetData()), &p)
+	resultEma, err := c.GenereteIndicatorsUseCase.Ema(p, in.GetSource(), in.GetLength())
 
 	if err == nil {
 		return &pb.StandardResult{
