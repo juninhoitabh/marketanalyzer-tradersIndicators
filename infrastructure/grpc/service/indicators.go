@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/juninhoitabh/marketanalyzer-talibservice/dto"
 	"github.com/juninhoitabh/marketanalyzer-talibservice/infrastructure/grpc/pb"
@@ -20,7 +19,17 @@ func NewIndicatorsService() *IndicatorsService {
 
 func (c *IndicatorsService) Ema(ctx context.Context, in *pb.StandardRequest) (*pb.StandardResult, error) {
 	p := []dto.PriceHistory{}
-	json.Unmarshal([]byte(in.GetData()), &p)
+	for _, v := range in.GetData() {
+		priceHistoryDto := dto.PriceHistory{
+			TimeHistory: v.GetTimeHistory(),
+			Open:        v.GetOpen(),
+			High:        v.GetHigh(),
+			Low:         v.GetLow(),
+			Close:       v.GetClose(),
+			Volume:      v.GetVolume(),
+		}
+		p = append(p, priceHistoryDto)
+	}
 	resultEma, err := c.GenereteIndicatorsUseCase.Ema(p, in.GetSource(), in.GetLength())
 
 	if err == nil {
@@ -30,6 +39,6 @@ func (c *IndicatorsService) Ema(ctx context.Context, in *pb.StandardRequest) (*p
 	}
 
 	return &pb.StandardResult{
-		Data: "",
+		Data: []float64{},
 	}, err
 }

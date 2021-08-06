@@ -10,3 +10,7 @@ services:
       - '50051:50051'
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
+  grpc-test:
+    image: gusaul/grpcox:latest
+    ports:
+      - 6969:6969
