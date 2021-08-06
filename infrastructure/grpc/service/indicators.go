@@ -30,6 +30,7 @@ func (c *IndicatorsService) Ema(ctx context.Context, in *pb.StandardRequest) (*p
 		}
 		p = append(p, priceHistoryDto)
 	}
+
 	resultEma, err := c.GenereteIndicatorsUseCase.Ema(p, in.GetSource(), in.GetLength())
 
 	if err == nil {
