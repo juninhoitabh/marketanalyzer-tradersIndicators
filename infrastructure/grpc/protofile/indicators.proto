@@ -4,23 +4,84 @@ option go_package = "grpc/pb";
 
 service IndicatorsService {
   rpc Ema(StandardRequest) returns (StandardResult) {}
+  rpc Sma(StandardRequest) returns (StandardResult) {}
+  rpc Macd(MacdRequest) returns (MacdResult) {}
+  rpc StochOscillator(StochRequest) returns (StochResult) {}
+  rpc Cci(StandardDatasRequest) returns (StandardResult) {}
+  rpc Atr(StandardDatasRequest) returns (StandardResult) {}
+  rpc Sar(StandardDatasOnlyRequest) returns (StandardResult) {}
+  rpc Dmi(StandardDatasRequest) returns (DmiResult) {}
+  rpc Adx(StandardDatasRequest) returns (StandardResult) {}
 }
 
-message Data {
-  int64 timeHistory = 1;
-  double open = 2;
-  double high = 3;
-  double low = 4;
-  double close = 5;
-  int64 volume = 6;
+message MacdRequest {
+  repeated double data         = 1;
+  int32           fastPeriod   = 2;
+  int32           slowPeriod   = 3;
+  int32           signalPeriod = 4;
+  bool            initial      = 5;
 }
 
+message MacdReturn {
+  double fastLength   = 1;
+  double macd         = 2;
+  double signalLength = 3;
+}
 
+message MacdResult {
+  repeated MacdReturn data = 1;
+}
+
+message StochRequest {
+  repeated double dataHigh  = 1;
+  repeated double dataLow   = 2;
+  repeated double dataClose = 3;
+  int32           length    = 4;
+  int32           smoothK   = 5;
+  int32           smoothD   = 6;
+  int32           mAUse     = 7;
+  bool            initial   = 8;
+}
+
+message StochReturn {
+  double smoothk = 1;
+  double smoothd = 2;
+}
+
+message StochResult {
+  repeated StochReturn data = 1;
+}
+
+message DmiReturn {
+  double adx = 1;
+  double plusd = 2;
+  double minusd = 3;
+}
+
+message DmiResult {
+  repeated DmiReturn data = 1;
+}
+
+message StandardDatasRequest {
+  repeated double dataHigh  = 1;
+  repeated double dataLow   = 2;
+  repeated double dataClose = 3;
+  int32           length    = 4;
+  bool            initial   = 5;
+}
+
+message StandardDatasOnlyRequest {
+  repeated double dataHigh  = 1;
+  repeated double dataLow   = 2;
+  double          increment = 3;
+  double          maximum   = 4;
+  bool            initial   = 5;
+}
 
 message StandardRequest {
-  repeated Data data = 1;
-  string source = 2;
-  int32 length = 3;
+  repeated double data    = 1;
+  int32           length  = 2;
+  bool            initial = 3;
 }
 
 message StandardResult {
